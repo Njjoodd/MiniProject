@@ -1,5 +1,6 @@
 package com.first.miniproject.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -49,18 +50,16 @@ fun BranchDetails(
         Spacer(modifier = Modifier.height(16.dp))
 
         AsyncImage(
-            model = branch.imageUri,
-            contentDescription = "Branch Image",
-            contentScale = ContentScale.None,
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(branch.imageUri)
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            placeholder = painterResource(id = R.drawable.placeholder_branch),
-            error = painterResource(id = R.drawable.placeholder_branch)
+            contentScale = ContentScale.Crop
         )
-
-
-
         Spacer(modifier = Modifier.height(12.dp))
         Text(text = "Type: ${branch.type.displayName}", fontSize = 16.sp)
         Text(text = "Address: ${branch.address}", fontSize = 16.sp)
