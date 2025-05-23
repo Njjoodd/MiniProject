@@ -13,9 +13,45 @@ class BranchViewModel : ViewModel() {
     var favoriteBranchId by mutableStateOf<Int?>(null)
         private set
 
+    var isSortedByName by mutableStateOf(false)
+        private set
+
+    var isSortedByType by mutableStateOf(false)
+        private set
+
+    var isFiltered by mutableStateOf(false)
+        private set
+
+    fun sortBranchesByName() {
+        branches = branches.sortedBy { it.name }
+        isFiltered = true
+    }
+
+    fun sortBranchesByType() {
+        branches = branches.sortedBy { it.type.name }
+        isFiltered = true
+    }
+
+
+    fun filterBranchesByHours() {
+        branches = BranchRepository.dummyBranches.filter {
+            it.hours.contains("24/7", ignoreCase = true)
+        }
+        isFiltered = true
+        isSortedByName = false
+        isSortedByType = false
+    }
+
+    fun resetBranches() {
+        branches = BranchRepository.dummyBranches
+        isFiltered = false
+    }
+
     fun setFavorite(branchId: Int) {
         favoriteBranchId = if (favoriteBranchId == branchId) null else branchId
     }
+
+
 
     fun isFavorite(branchId: Int): Boolean {
         return branchId == favoriteBranchId

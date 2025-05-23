@@ -19,7 +19,7 @@ object BranchRepository {
         ),
         Branch(
             id = 2,
-            name = "Small Branch 1",
+            name = "Downtown ATM",
             type = BranchType.ATM,
             address = "Block 2, somewhere",
             phone = "+965 00000001",
@@ -29,7 +29,7 @@ object BranchRepository {
         ),
         Branch(
             id = 3,
-            name = "Service Branch 1",
+            name = "Downtown Service",
             type = BranchType.SERVICE,
             address = "Main St, somewhere",
             phone = "+965 00000002",
@@ -39,7 +39,7 @@ object BranchRepository {
         ),
         Branch(
             id = 4,
-            name = "Service Branch 2",
+            name = "Middletown Service",
             type = BranchType.SERVICE,
             address = "Block 4, somewhere",
             phone = "+965 00000003",
@@ -49,7 +49,7 @@ object BranchRepository {
         ),
         Branch(
             id = 5,
-            name = "Small Branch 2",
+            name = "Uptown ATM",
             type = BranchType.ATM,
             address = "Block 6, somewhere",
             phone = "+965 00000004",
