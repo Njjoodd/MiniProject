@@ -16,7 +16,8 @@ import com.first.miniproject.model.Branch
 fun BranchCard(
     branch: Branch,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    isFavorite: Boolean = false
 ) {
     Card(
         modifier = modifier
@@ -25,7 +26,7 @@ fun BranchCard(
             .padding(4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = branch.name)
+            Text(text = if (isFavorite) "🌟 ${branch.name}" else branch.name)
             Text(text = branch.address)
         }
     }

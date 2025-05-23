@@ -1,6 +1,5 @@
 package com.first.miniproject
 
-import com.first.miniproject.ui.components.BranchesList
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,45 +8,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.first.miniproject.model.Branch
-import com.first.miniproject.model.BranchType
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.first.miniproject.ui.components.BranchCard
+import com.first.miniproject.model.Branch
+import com.first.miniproject.model.BranchType
+import com.first.miniproject.model.BranchViewModel
+import com.first.miniproject.ui.components.BranchesList
 import com.first.miniproject.ui.screens.BranchDetails
 import com.first.miniproject.ui.theme.MiniProjectTheme
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MiniProjectTheme {
+                val viewModel: BranchViewModel = viewModel() // ✅ moved inside setContent
+                val navController = rememberNavController()
+
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val dummyBranches = listOf(
-                        Branch(
-                            id = 1,
-                            name = "Qortuba Branch",
-                            type = BranchType.MAIN,
-                            address = "Block 5, Qortuba, Kuwait",
-                            phone = "99990000",
-                            hours = "8AM - 5PM",
-                            locationUrl = "https://maps.google.com"
-                        ),
-                        Branch(
-                            id = 2,
-                            name = "Bayan Branch",
-                            type = BranchType.ATM,
-                            address = "Block 2, Bayan",
-                            phone = "99900000",
-                            hours = "Open 24/7",
-                            locationUrl = "https://maps.google.com"
-                        )
-                    )
-
-                    val navController = rememberNavController()
-
                     NavHost(
                         navController = navController,
                         startDestination = "branchList",
@@ -55,7 +35,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("branchList") {
                             BranchesList(
-                                branches = dummyBranches,
+                                branches = viewModel.branches, // ✅ using ViewModel
+                                viewModel = viewModel,
                                 onItemClicked = { branchId ->
                                     navController.navigate("branchDetails/$branchId")
                                 }
@@ -63,12 +44,10 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable("branchDetails/{branchId}") { backStackEntry ->
-                            val branchId =
-                                backStackEntry.arguments?.getString("branchId")?.toIntOrNull()
-                            val branch = dummyBranches.find { it.id == branchId }
-
+                            val branchId = backStackEntry.arguments?.getString("branchId")?.toIntOrNull()
+                            val branch = viewModel.getBranchById(branchId ?: -1) // ✅ ViewModel source
                             branch?.let {
-                                BranchDetails(branch = it)
+                                BranchDetails(branch = it, navController = navController, viewModel = viewModel)
                             }
                         }
                     }
