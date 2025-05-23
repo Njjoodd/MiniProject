@@ -13,7 +13,9 @@ object BranchRepository {
             phone = "+965 00000000",
             hours = "8AM - 5PM",
             locationUrl = "https://maps.google.com",
-            imageUri = "https://plus.unsplash.com/premium_vector-1724738558612-56d27145e1de?w=900&auto=format&fit=crop&q=60"
+           imageUri = "https://picsum.photos/id/1025/600/300"
+
+            //"https://plus.unsplash.com/premium_vector-1724738558612-56d27145e1de?w=900&auto=format&fit=crop&q=60"
         ),
         Branch(
             id = 2,

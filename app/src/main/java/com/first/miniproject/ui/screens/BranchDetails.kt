@@ -10,12 +10,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.first.miniproject.R
 import com.first.miniproject.model.Branch
 import com.first.miniproject.model.BranchViewModel
@@ -49,12 +51,15 @@ fun BranchDetails(
         AsyncImage(
             model = branch.imageUri,
             contentDescription = "Branch Image",
-            placeholder = painterResource(R.drawable.placeholder_branch),
-            error = painterResource(R.drawable.placeholder_branch),
+            contentScale = ContentScale.None,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(200.dp),
+            placeholder = painterResource(id = R.drawable.placeholder_branch),
+            error = painterResource(id = R.drawable.placeholder_branch)
         )
+
+
 
         Spacer(modifier = Modifier.height(12.dp))
         Text(text = "Type: ${branch.type.displayName}", fontSize = 16.sp)
