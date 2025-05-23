@@ -1,6 +1,5 @@
 package com.first.miniproject.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -35,8 +34,10 @@ fun BranchDetails(
 
     Column(
         modifier = modifier
+            .fillMaxSize()
             .padding(16.dp)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         TopAppBar(
             title = { Text(branch.name) },
@@ -44,29 +45,37 @@ fun BranchDetails(
                 IconButton(onClick = { navController.popBackStack() }) {
                     Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
                 }
-            }
+            },
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
+            )
         )
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         AsyncImage(
             model = ImageRequest.Builder(LocalContext.current)
                 .data(branch.imageUri)
                 .crossfade(true)
                 .build(),
-            contentDescription = null,
+            contentDescription = "Branch Image",
+            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp),
-            contentScale = ContentScale.Crop
+            placeholder = painterResource(id = R.drawable.placeholder_branch),
+            error = painterResource(id = R.drawable.placeholder_branch)
         )
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(text = "Type: ${branch.type.displayName}", fontSize = 16.sp)
-        Text(text = "Address: ${branch.address}", fontSize = 16.sp)
-        Text(text = "Phone: ${branch.phone}", fontSize = 16.sp)
-        Text(text = "Hours: ${branch.hours}", fontSize = 16.sp)
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text(text = "Type: ${branch.type.displayName}", fontSize = 16.sp)
+            Text(text = "Address: ${branch.address}", fontSize = 16.sp)
+            Text(text = "Phone: ${branch.phone}", fontSize = 16.sp)
+            Text(text = "Hours: ${branch.hours}", fontSize = 16.sp)
+        }
 
         Button(
             onClick = { uriHandler.openUri(branch.locationUrl) },
@@ -74,8 +83,6 @@ fun BranchDetails(
         ) {
             Text("Open in Google Maps")
         }
-
-        Spacer(modifier = Modifier.height(8.dp))
 
         Button(
             onClick = { viewModel.setFavorite(branch.id) },

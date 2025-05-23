@@ -7,7 +7,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FilterList
-import androidx.compose.material.icons.filled.Sort
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -35,17 +34,33 @@ class MainActivity : ComponentActivity() {
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
+                    containerColor = MaterialTheme.colorScheme.background,
                     topBar = {
                         TopAppBar(
-                            title = { Text("Bank Branches") },
+                            title = {
+                                Text(
+                                    text = "Bank Branches",
+                                    color = MaterialTheme.colorScheme.onPrimary
+                                )
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primary
+                            ),
                             actions = {
                                 if (viewModel.isFiltered) {
                                     TextButton(onClick = { viewModel.resetBranches() }) {
-                                        Text("Reset Filters")
+                                        Text(
+                                            "Reset Filters",
+                                            color = MaterialTheme.colorScheme.onPrimary
+                                        )
                                     }
                                 }
                                 IconButton(onClick = { filterMenuExpanded = true }) {
-                                    Icon(Icons.Default.FilterList, contentDescription = "Filter")
+                                    Icon(
+                                        imageVector = Icons.Default.FilterList,
+                                        contentDescription = "Filter",
+                                        tint = MaterialTheme.colorScheme.onPrimary
+                                    )
                                 }
                                 DropdownMenu(
                                     expanded = filterMenuExpanded,
@@ -66,7 +81,7 @@ class MainActivity : ComponentActivity() {
                                         }
                                     )
                                     DropdownMenuItem(
-                                        text = { Text("Show 24/7") },
+                                        text = { Text("Open 24/7") },
                                         onClick = {
                                             viewModel.filterBranchesByHours()
                                             filterMenuExpanded = false
@@ -83,12 +98,16 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable("branchList") {
-                            Column(modifier = Modifier.padding(16.dp)) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(horizontal = 16.dp, vertical = 12.dp),
+                                verticalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
                                 SearchBar(
                                     query = viewModel.searchQuery,
                                     onQueryChange = { viewModel.updateSearchQuery(it) }
                                 )
-                                Spacer(modifier = Modifier.height(8.dp))
                                 BranchesList(
                                     branches = viewModel.filteredBranches,
                                     viewModel = viewModel,
