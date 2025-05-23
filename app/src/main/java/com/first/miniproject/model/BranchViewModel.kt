@@ -4,16 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.first.miniproject.model.Branch
-import com.first.miniproject.model.BranchType
-import com.first.miniproject.ui.components.BranchRepository
+import com.first.miniproject.repository.BranchRepository
 
 class BranchViewModel : ViewModel() {
     var branches by mutableStateOf(BranchRepository.dummyBranches)
         private set
 
     var favoriteBranchId by mutableStateOf<Int?>(null)
-
         private set
 
     fun setFavorite(branchId: Int) {
@@ -23,8 +20,6 @@ class BranchViewModel : ViewModel() {
     fun isFavorite(branchId: Int): Boolean {
         return branchId == favoriteBranchId
     }
-
-
 
     fun getBranchById(id: Int): Branch? {
         return branches.find { it.id == id }

@@ -12,19 +12,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.first.miniproject.model.Branch
-import com.first.miniproject.model.BranchType
 import com.first.miniproject.model.BranchViewModel
 import com.first.miniproject.ui.components.BranchesList
 import com.first.miniproject.ui.screens.BranchDetails
 import com.first.miniproject.ui.theme.MiniProjectTheme
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             MiniProjectTheme {
-                val viewModel: BranchViewModel = viewModel() // ✅ moved inside setContent
+                val viewModel: BranchViewModel = viewModel()
                 val navController = rememberNavController()
 
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
@@ -35,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("branchList") {
                             BranchesList(
-                                branches = viewModel.branches, // ✅ using ViewModel
+                                branches = viewModel.branches,
                                 viewModel = viewModel,
                                 onItemClicked = { branchId ->
                                     navController.navigate("branchDetails/$branchId")
@@ -45,7 +44,7 @@ class MainActivity : ComponentActivity() {
 
                         composable("branchDetails/{branchId}") { backStackEntry ->
                             val branchId = backStackEntry.arguments?.getString("branchId")?.toIntOrNull()
-                            val branch = viewModel.getBranchById(branchId ?: -1) // ✅ ViewModel source
+                            val branch = viewModel.getBranchById(branchId ?: -1)
                             branch?.let {
                                 BranchDetails(branch = it, navController = navController, viewModel = viewModel)
                             }

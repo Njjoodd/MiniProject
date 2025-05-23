@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.first.miniproject.model.Branch
 import com.first.miniproject.model.BranchViewModel
 
@@ -23,7 +22,9 @@ fun BranchesList(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(branches) { branch ->
-            BranchCard(branch = branch, onClick = { onItemClicked(branch.id) },
+            BranchCard(
+                branch = branch,
+                onClick = { onItemClicked(branch.id) },
                 isFavorite = viewModel.isFavorite(branch.id)
             )
         }

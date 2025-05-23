@@ -1,6 +1,5 @@
 package com.first.miniproject.ui.screens
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -10,12 +9,13 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.first.miniproject.R
 import com.first.miniproject.model.Branch
 import com.first.miniproject.model.BranchViewModel
@@ -23,7 +23,10 @@ import com.first.miniproject.model.BranchViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BranchDetails(
-    branch: Branch, navController: NavController, viewModel: BranchViewModel, modifier: Modifier = Modifier
+    branch: Branch,
+    navController: NavController,
+    viewModel: BranchViewModel,
+    modifier: Modifier = Modifier
 ) {
     val uriHandler = LocalUriHandler.current
 
@@ -43,11 +46,11 @@ fun BranchDetails(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        val image = branch.imageUri ?: R.drawable.placeholder_branch
-
-        Image(
-            painter = painterResource(id = image),
+        AsyncImage(
+            model = branch.imageUri,
             contentDescription = "Branch Image",
+            placeholder = painterResource(R.drawable.placeholder_branch),
+            error = painterResource(R.drawable.placeholder_branch),
             modifier = Modifier
                 .fillMaxWidth()
                 .height(200.dp)
@@ -71,12 +74,12 @@ fun BranchDetails(
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
-            onClick = { viewModel.setFavorite(branch.id)},
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+            onClick = { viewModel.setFavorite(branch.id) },
+            modifier = Modifier.align(Alignment.CenterHorizontally)
         ) {
             Text(
                 text = if (viewModel.isFavorite(branch.id)) "Remove Favorite 🌟" else "Add to Favorites"
             )
         }
     }
-    }
+}
