@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.first.miniproject.model.BranchViewModel
 import com.first.miniproject.ui.components.BranchesList
+import com.first.miniproject.ui.components.SearchBar
 import com.first.miniproject.ui.screens.BranchDetails
 import com.first.miniproject.ui.theme.MiniProjectTheme
 
@@ -82,13 +83,20 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.padding(innerPadding)
                     ) {
                         composable("branchList") {
-                            BranchesList(
-                                branches = viewModel.branches,
-                                viewModel = viewModel,
-                                onItemClicked = { branchId ->
-                                    navController.navigate("branchDetails/$branchId")
-                                }
-                            )
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                SearchBar(
+                                    query = viewModel.searchQuery,
+                                    onQueryChange = { viewModel.updateSearchQuery(it) }
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                BranchesList(
+                                    branches = viewModel.filteredBranches,
+                                    viewModel = viewModel,
+                                    onItemClicked = { branchId ->
+                                        navController.navigate("branchDetails/$branchId")
+                                    }
+                                )
+                            }
                         }
                         composable("branchDetails/{branchId}") { backStackEntry ->
                             val branchId = backStackEntry.arguments?.getString("branchId")?.toIntOrNull()

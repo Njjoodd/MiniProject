@@ -1,8 +1,12 @@
 package com.first.miniproject.model
 
-enum class BranchType(val displayName: String) {
-    MAIN("Main"), ATM("ATM"), SERVICE("Service"), OTHER("Other")
+enum class BranchType(val displayName: String, val priority: Int) {
+    MAIN("Main", 1),
+    ATM("ATM", 2),
+    SERVICE("Service", 3),
+    OTHER("Other", 4)
 }
+
 
 data class Branch(
     val id: Int,

@@ -27,8 +27,22 @@ class BranchViewModel : ViewModel() {
         isFiltered = true
     }
 
+    var searchQuery by mutableStateOf("")
+        private set
+
+    val filteredBranches: List<Branch>
+        get() = branches.filter {
+            it.name.contains(searchQuery, ignoreCase = true) ||
+                    it.address.contains(searchQuery, ignoreCase = true)
+        }
+
+    fun updateSearchQuery(newQuery: String) {
+        searchQuery = newQuery
+    }
+
+
     fun sortBranchesByType() {
-        branches = branches.sortedBy { it.type.name }
+        branches = branches.sortedBy { it.type.priority }
         isFiltered = true
     }
 
